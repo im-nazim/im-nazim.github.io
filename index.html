@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Muhammad Nazim — Generative AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg-paper: #F4F5F1;
+    --bg-hero: #10203A;
+    --ink: #16202B;
+    --ink-soft: #5B6673;
+    --line: #C9CDC3;
+    --line-soft: #DDE0D7;
+    --accent-amber: #A8721F;
+    --accent-navy: #1B3B6F;
+    --on-hero: #F4F5F1;
+    --on-hero-soft: rgba(244, 245, 241, 0.68);
+    --on-hero-line: rgba(244, 245, 241, 0.22);
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg-paper: #13171C;
+      --bg-hero: #0A1420;
+      --ink: #E6E8E2;
+      --ink-soft: #9AA3AC;
+      --line: #2B323A;
+      --line-soft: #232A31;
+      --accent-amber: #D9A75A;
+      --accent-navy: #7D9DC9;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-paper: #13171C;
+    --bg-hero: #0A1420;
+    --ink: #E6E8E2;
+    --ink-soft: #9AA3AC;
+    --line: #2B323A;
+    --line-soft: #232A31;
+    --accent-amber: #D9A75A;
+    --accent-navy: #7D9DC9;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(76px + env(safe-area-inset-top, 0px));
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg-paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- NAV ---------- */
+
+  nav.site-nav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: var(--bg-hero);
+    color: var(--on-hero);
+    border-bottom: 1px solid var(--on-hero-line);
+  }
+  nav.site-nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .nav-name {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .nav-links {
+    display: flex;
+    gap: 22px;
+    font-size: 0.92rem;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--on-hero-soft);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible {
+    color: var(--on-hero);
+    border-color: var(--on-hero);
+  }
+
+  /* ---------- HERO ---------- */
+
+  header.hero {
+    background: var(--bg-hero);
+    color: var(--on-hero);
+    padding: 64px 0 56px;
+  }
+  h1.headline {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(1.9rem, 4.4vw, 2.75rem);
+    line-height: 1.18;
+    max-width: 15ch;
+    margin: 0 0 18px;
+  }
+  p.sub {
+    font-size: 1.05rem;
+    color: var(--on-hero-soft);
+    max-width: 52ch;
+    margin: 0 0 46px;
+  }
+
+  /* pipeline diagram */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    row-gap: 18px;
+  }
+  .pnode {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pnode .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--on-hero-line);
+    border: 1px solid var(--on-hero-line);
+    flex: none;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  .pnode.lit .dot {
+    background: var(--accent-amber);
+    box-shadow: 0 0 0 4px rgba(217, 167, 90, 0.18);
+  }
+  .pnode span.label {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--on-hero-soft);
+    transition: color 0.4s ease;
+    white-space: nowrap;
+  }
+  .pnode.lit span.label { color: var(--on-hero); }
+  .parrow {
+    width: 26px;
+    height: 1px;
+    background: var(--on-hero-line);
+    margin: 0 10px;
+    position: relative;
+    flex: none;
+  }
+  @media (max-width: 640px) {
+    .parrow { width: 14px; margin: 0 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pnode .dot, .pnode span.label { transition: none; }
+  }
+
+  /* ---------- SECTIONS ---------- */
+
+  section { padding: 64px 0; }
+  section + section { border-top: 1px solid var(--line-soft); }
+
+  h2.section-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0 0 8px;
+  }
+  p.section-intro {
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0 0 40px;
+  }
+
+  /* ---------- PROJECT CARDS ---------- */
+
+  .project {
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+  }
+  .project:last-child { padding-bottom: 0; }
+
+  .project.flagship {
+    padding: 32px 28px;
+    margin: 0 -28px 8px;
+    border: 1px solid var(--accent-navy);
+    border-radius: 2px;
+  }
+  .project.flagship + .project { border-top: 1px solid var(--line); }
+
+  .kicker {
+    font-size: 0.82rem;
+    color: var(--accent-navy);
+    margin: 0 0 6px;
+  }
+  h3.proj-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.28rem;
+    margin: 0 0 10px;
+  }
+  p.proj-desc {
+    max-width: 64ch;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    padding: 3px 9px;
+    border-radius: 2px;
+  }
+  .proj-links {
+    display: flex;
+    gap: 22px;
+    font-size: 0.92rem;
+    flex-wrap: wrap;
+  }
+  .proj-links a {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  .proj-links a:hover, .proj-links a:focus-visible {
+    text-decoration-color: var(--ink);
+  }
+  .proj-status {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* ---------- SKILLS ---------- */
+
+  .skill-group { margin-bottom: 28px; }
+  .skill-group:last-child { margin-bottom: 0; }
+  h3.skill-head {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.98rem;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+
+  footer.contact {
+    background: var(--bg-hero);
+    color: var(--on-hero);
+    padding: 64px 0 48px;
+  }
+  h2.contact-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.7rem;
+    margin: 0 0 14px;
+  }
+  p.contact-sub {
+    color: var(--on-hero-soft);
+    max-width: 52ch;
+    margin: 0 0 32px;
+  }
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    font-size: 0.98rem;
+    margin-bottom: 40px;
+  }
+  .contact-links a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--on-hero-line);
+    padding-bottom: 3px;
+    transition: border-color 0.15s ease;
+  }
+  .contact-links a:hover, .contact-links a:focus-visible {
+    border-color: var(--on-hero);
+  }
+  p.foot-note {
+    font-size: 0.82rem;
+    color: var(--on-hero-soft);
+    margin: 0;
+  }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent-amber);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 0 20px; }
+    header.hero { padding: 48px 0 44px; }
+    section { padding: 48px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <span class="nav-name">Muhammad Nazim</span>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1 class="headline">I build multi-agent AI systems that check their own work.</h1>
+    <p class="sub">Generative AI Engineer based in Lahore, Pakistan, working on LLM applications and multi-agent systems — available for freelance projects and open to full-time roles.</p>
+
+    <div class="pipeline" id="pipeline">
+      <div class="pnode" data-i="0"><span class="dot"></span><span class="label">planner</span></div>
+      <div class="parrow"></div>
+      <div class="pnode" data-i="1"><span class="dot"></span><span class="label">researcher</span></div>
+      <div class="parrow"></div>
+      <div class="pnode" data-i="2"><span class="dot"></span><span class="label">fact checker</span></div>
+      <div class="parrow"></div>
+      <div class="pnode" data-i="3"><span class="dot"></span><span class="label">writer</span></div>
+      <div class="parrow"></div>
+      <div class="pnode" data-i="4"><span class="dot"></span><span class="label">editor</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="projects">
+  <div class="wrap">
+    <h2 class="section-title">Projects</h2>
+    <p class="section-intro">A few of the systems I've built, ranging from a production-style RAG pipeline to a research project where the most useful result was learning what didn't work.</p>
+
+    <div class="project flagship">
+      <p class="kicker">Flagship project</p>
+      <h3 class="proj-title">AI Research &amp; Report Team</h3>
+      <p class="proj-desc">A six-agent pipeline — planner, researcher, fact checker, writer, and editor — that turns a single topic into a fully cited report, drawing on live web search and uploaded documents. Every claim is checked against its source before the writer ever sees it, and a built-in evaluation dashboard scores each run for relevance, fact-check pass rate, and citation accuracy.</p>
+      <div class="tags">
+        <span class="tag">langchain</span>
+        <span class="tag">google-gemini</span>
+        <span class="tag">streamlit</span>
+        <span class="tag">rag</span>
+        <span class="tag">pydantic</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://multi-agent-report-team-fb2shsrakct74rrdxte46f.streamlit.app" target="_blank" rel="noopener">View live demo</a>
+        <a href="https://github.com/im-nazim/multi-agent-report-team" target="_blank" rel="noopener">View source</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3 class="proj-title">AI lead generation &amp; sales agent</h3>
+      <p class="proj-desc">A three-agent pipeline that enriches a CSV of company names with web research, scores each one against a defined Ideal Customer Profile, and drafts a personalized outreach email for every lead that qualifies. Scoped deliberately around CSV input rather than fragile, ToS-risky scraping, with a clear path to swap in a paid data source like Apollo or Hunter later.</p>
+      <div class="tags">
+        <span class="tag">langchain</span>
+        <span class="tag">google-gemini</span>
+        <span class="tag">pydantic</span>
+        <span class="tag">multi-agent</span>
+        <span class="tag">streamlit</span>
+      </div>
+      <p class="proj-status">Working v1, not yet public</p>
+    </div>
+
+    <div class="project">
+      <h3 class="proj-title">AI content generator</h3>
+      <p class="proj-desc">Turns a single content brief into a full social media package — Facebook, LinkedIn, and Instagram content, hashtags, and an ad — kept consistent through a saved brand voice. Includes repurposing into other formats, an AI marketing assistant for strategy chat, and local history, scheduling, and analytics, with automatic model fallback and no API key ever touching the UI.</p>
+      <div class="tags">
+        <span class="tag">streamlit</span>
+        <span class="tag">google-genai</span>
+        <span class="tag">sqlite</span>
+        <span class="tag">multi-language</span>
+      </div>
+      <div class="proj-links">
+        <a href="https://github.com/im-nazim/ai-content-generator" target="_blank" rel="noopener">View source</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3 class="proj-title">AI customer support agent</h3>
+      <p class="proj-desc">A retrieval-augmented support chatbot: a business uploads its own documents and customers get answers grounded only in that knowledge base, with a clear fallback instead of a guess when the answer isn't there.</p>
+      <div class="tags">
+        <span class="tag">streamlit</span>
+        <span class="tag">google-gemini</span>
+        <span class="tag">faiss</span>
+        <span class="tag">rag</span>
+      </div>
+      <p class="proj-status">In active development</p>
+    </div>
+
+    <div class="project">
+      <h3 class="proj-title">Trading signal research — crypto &amp; forex</h3>
+      <p class="proj-desc">A personal research project testing whether machine learning finds a tradeable edge in Bitcoin and EUR/USD price direction. Five separate tests — technical indicators, volatility regimes, and three independent sentiment data sources — found no exploitable signal, so the project pivoted to the one result that actually held up under validation: a simple volatility mean-reversion rule for risk management.</p>
+      <div class="tags">
+        <span class="tag">python</span>
+        <span class="tag">walk-forward validation</span>
+        <span class="tag">gdelt / bigquery</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3 class="proj-title">Retinal disease detection — final year project</h3>
+      <p class="proj-desc">A deep learning pipeline for detecting retinal disease from eye images, built as a university final-year project.</p>
+      <div class="tags">
+        <span class="tag">tensorflow</span>
+        <span class="tag">keras</span>
+        <span class="tag">opencv</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2 class="section-title">Skills &amp; tools</h2>
+    <p class="section-intro">What I reach for day to day, building and shipping LLM applications.</p>
+
+    <div class="skill-group">
+      <h3 class="skill-head">Frameworks &amp; libraries</h3>
+      <div class="skill-tags">
+        <span class="tag">langchain</span>
+        <span class="tag">google-gemini-api</span>
+        <span class="tag">streamlit</span>
+        <span class="tag">flask</span>
+        <span class="tag">tensorflow</span>
+        <span class="tag">keras</span>
+        <span class="tag">opencv</span>
+        <span class="tag">pydantic</span>
+        <span class="tag">numpy</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3 class="skill-head">Language &amp; environment</h3>
+      <div class="skill-tags">
+        <span class="tag">python</span>
+        <span class="tag">vs code</span>
+        <span class="tag">google antigravity</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <h2 class="contact-title">Let's talk</h2>
+    <p class="contact-sub">Available for freelance AI engineering work and open to full-time roles in generative AI and multi-agent systems.</p>
+    <div class="contact-links">
+      <a href="mailto:muhammadnazim.workspace@gmail.com">muhammadnazim.workspace@gmail.com</a>
+      <a href="https://github.com/im-nazim" target="_blank" rel="noopener">github.com/im-nazim</a>
+      <a href="https://www.linkedin.com/in/muhammad-nazim-797133427/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <p class="foot-note">Muhammad Nazim — Lahore, Pakistan</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var nodes = Array.prototype.slice.call(document.querySelectorAll('.pnode'));
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduce) {
+      nodes.forEach(function (n) { n.classList.add('lit'); });
+      return;
+    }
+
+    nodes.forEach(function (n, i) {
+      setTimeout(function () {
+        n.classList.add('lit');
+      }, 260 + i * 260);
+    });
+  })();
+</script>
+
+</body>
+</html>
