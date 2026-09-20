@@ -135,8 +135,34 @@
     font-size: 1.05rem;
     color: var(--on-hero-soft);
     max-width: 52ch;
+    margin: 0 0 28px;
+  }
+
+  /* hero call-to-action buttons (hero is dark in both themes) */
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
     margin: 0 0 46px;
   }
+  .btn {
+    display: inline-block;
+    font-size: 0.92rem;
+    font-weight: 500;
+    padding: 10px 18px;
+    border: 1px solid var(--on-hero-line);
+    border-radius: 2px;
+    text-decoration: none;
+    color: var(--on-hero);
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover, .btn:focus-visible { border-color: var(--on-hero); }
+  .btn.primary {
+    background: #D9A75A;
+    border-color: #D9A75A;
+    color: #10203A;
+  }
+  .btn.primary:hover, .btn.primary:focus-visible { background: #E6BC78; border-color: #E6BC78; }
 
   /* pipeline diagram */
   .pipeline {
@@ -265,10 +291,61 @@
   .proj-links a:hover, .proj-links a:focus-visible {
     text-decoration-color: var(--ink);
   }
-  .proj-status {
-    font-size: 0.9rem;
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--accent-amber);
+    border: 1px solid var(--accent-amber);
+    padding: 3px 9px;
+    border-radius: 2px;
+    margin: 0 0 14px;
+  }
+  .badge a { text-decoration: underline; text-underline-offset: 3px; }
+
+  .group-label {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--ink-soft);
-    font-style: italic;
+    margin: 40px 0 0;
+  }
+  .group-label + .project { border-top: none; padding-top: 16px; }
+
+  /* screenshot / figure slot: drop an <img> in and it styles itself */
+  .shot { margin: 0 0 18px; }
+  .shot img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+  }
+  .shot figcaption {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  /* quick-facts row for metrics */
+  dl.facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 32px;
+    margin: 0 0 18px;
+  }
+  dl.facts div { min-width: 0; }
+  dl.facts dt {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+  dl.facts dd {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.15rem;
   }
 
   /* ---------- SKILLS ---------- */
@@ -337,6 +414,7 @@
     .wrap { padding: 0 20px; }
     header.hero { padding: 48px 0 44px; }
     section { padding: 48px 0; }
+    .project.flagship { margin: 0 -20px 8px; padding: 32px 20px; }
   }
 </style>
 </head>
@@ -357,6 +435,11 @@
   <div class="wrap">
     <h1 class="headline">I build multi-agent AI systems that check their own work.</h1>
     <p class="sub">Generative AI Engineer based in Lahore, Pakistan, working on LLM applications and multi-agent systems — available for freelance projects and open to full-time roles.</p>
+
+    <div class="hero-cta">
+      <a class="btn primary" href="cv/Muhammad-Nazim-CV.pdf" download>Download CV</a>
+      <a class="btn" href="https://www.fiverr.com/sellers/muhammadnazim98" target="_blank" rel="noopener">Hire me on Fiverr</a>
+    </div>
 
     <div class="pipeline" id="pipeline">
       <div class="pnode" data-i="0"><span class="dot"></span><span class="label">planner</span></div>
@@ -380,7 +463,20 @@
     <div class="project flagship">
       <p class="kicker">Flagship project</p>
       <h3 class="proj-title">AI Research &amp; Report Team</h3>
-      <p class="proj-desc">A six-agent pipeline — planner, researcher, fact checker, writer, and editor — that turns a single topic into a fully cited report, drawing on live web search and uploaded documents. Every claim is checked against its source before the writer ever sees it, and a built-in evaluation dashboard scores each run for relevance, fact-check pass rate, and citation accuracy.</p>
+      <p class="proj-desc">A five-agent pipeline — planner, researcher, fact checker, writer, and editor — that turns a single topic into a fully cited report, drawing on live web search and uploaded documents. Every claim is checked against its source before the writer ever sees it. A separate judge agent, kept outside the writing chain so it can't grade its own work, powers a built-in evaluation dashboard that scores each run for relevance, fact-check pass rate, and citation accuracy.</p>
+      <!-- TODO (screenshot): save a screenshot of a finished report or the evaluation dashboard as images/research-team.png, then uncomment:
+      <figure class="shot">
+        <img src="images/research-team.png" alt="Evaluation dashboard showing relevance, fact-check pass rate and citation accuracy per run" loading="lazy">
+        <figcaption>Evaluation dashboard: scores per run across test topics.</figcaption>
+      </figure>
+      -->
+      <!-- TODO (metrics): run the dashboard on your test topics, then uncomment and fill in the real numbers:
+      <dl class="facts">
+        <div><dt>Avg. relevance</dt><dd>X.X / 5</dd></div>
+        <div><dt>Fact-check pass rate</dt><dd>XX%</dd></div>
+        <div><dt>Citation accuracy</dt><dd>XX%</dd></div>
+      </dl>
+      -->
       <div class="tags">
         <span class="tag">langchain</span>
         <span class="tag">google-gemini</span>
@@ -395,21 +491,13 @@
     </div>
 
     <div class="project">
-      <h3 class="proj-title">AI lead generation &amp; sales agent</h3>
-      <p class="proj-desc">A three-agent pipeline that enriches a CSV of company names with web research, scores each one against a defined Ideal Customer Profile, and drafts a personalized outreach email for every lead that qualifies. Scoped deliberately around CSV input rather than fragile, ToS-risky scraping, with a clear path to swap in a paid data source like Apollo or Hunter later.</p>
-      <div class="tags">
-        <span class="tag">langchain</span>
-        <span class="tag">google-gemini</span>
-        <span class="tag">pydantic</span>
-        <span class="tag">multi-agent</span>
-        <span class="tag">streamlit</span>
-      </div>
-      <p class="proj-status">Working v1, not yet public</p>
-    </div>
-
-    <div class="project">
       <h3 class="proj-title">AI content generator</h3>
       <p class="proj-desc">Turns a single content brief into a full social media package — Facebook, LinkedIn, and Instagram content, hashtags, and an ad — kept consistent through a saved brand voice. Includes repurposing into other formats, an AI marketing assistant for strategy chat, and local history, scheduling, and analytics, with automatic model fallback and no API key ever touching the UI.</p>
+      <!-- TODO (screenshot): add images/content-generator.png and uncomment:
+      <figure class="shot">
+        <img src="images/content-generator.png" alt="Content generator showing a generated social media package" loading="lazy">
+      </figure>
+      -->
       <div class="tags">
         <span class="tag">streamlit</span>
         <span class="tag">google-genai</span>
@@ -422,18 +510,6 @@
     </div>
 
     <div class="project">
-      <h3 class="proj-title">AI customer support agent</h3>
-      <p class="proj-desc">A retrieval-augmented support chatbot: a business uploads its own documents and customers get answers grounded only in that knowledge base, with a clear fallback instead of a guess when the answer isn't there.</p>
-      <div class="tags">
-        <span class="tag">streamlit</span>
-        <span class="tag">google-gemini</span>
-        <span class="tag">faiss</span>
-        <span class="tag">rag</span>
-      </div>
-      <p class="proj-status">In active development</p>
-    </div>
-
-    <div class="project">
       <h3 class="proj-title">Trading signal research — crypto &amp; forex</h3>
       <p class="proj-desc">A personal research project testing whether machine learning finds a tradeable edge in Bitcoin and EUR/USD price direction. Five separate tests — technical indicators, volatility regimes, and three independent sentiment data sources — found no exploitable signal, so the project pivoted to the one result that actually held up under validation: a simple volatility mean-reversion rule for risk management.</p>
       <div class="tags">
@@ -441,15 +517,58 @@
         <span class="tag">walk-forward validation</span>
         <span class="tag">gdelt / bigquery</span>
       </div>
+      <!-- TODO (link): publish the notebook or write-up on GitHub and add:
+      <div class="proj-links"><a href="https://github.com/im-nazim/REPO_NAME" target="_blank" rel="noopener">View write-up</a></div>
+      -->
     </div>
 
     <div class="project">
       <h3 class="proj-title">Retinal disease detection — final year project</h3>
-      <p class="proj-desc">A deep learning pipeline for detecting retinal disease from eye images, built as a university final-year project.</p>
+      <p class="proj-desc">A deep learning model that classifies retinal diseases from fundus images, built as a university final-year project (2025–2026). It uses the ECSA-Net architecture to extract features from retinal image datasets and outputs a probability score per disease to support early screening.</p>
+      <!-- TODO (metrics): add your real results, then uncomment:
+      <dl class="facts">
+        <div><dt>Dataset</dt><dd>N images</dd></div>
+        <div><dt>Accuracy</dt><dd>XX%</dd></div>
+        <div><dt>Recall</dt><dd>XX%</dd></div>
+      </dl>
+      <figure class="shot">
+        <img src="images/retinal.png" alt="Sample retinal image with model prediction" loading="lazy">
+        <figcaption>Sample prediction on a held-out image.</figcaption>
+      </figure>
+      -->
       <div class="tags">
         <span class="tag">tensorflow</span>
         <span class="tag">keras</span>
         <span class="tag">opencv</span>
+        <span class="tag">ecsa-net</span>
+      </div>
+      <!-- TODO (link): push the code to GitHub and add a "View source" link here -->
+    </div>
+
+    <h3 class="group-label">In progress</h3>
+
+    <div class="project">
+      <span class="badge">Private beta · <a href="mailto:muhammadnazim.workspace@gmail.com?subject=Lead%20generation%20agent%20demo">demo on request</a></span>
+      <h3 class="proj-title">AI lead generation &amp; sales agent</h3>
+      <p class="proj-desc">A three-agent pipeline that enriches a CSV of company names with web research, scores each one against a defined Ideal Customer Profile, and drafts a personalized outreach email for every lead that qualifies. Scoped deliberately around CSV input rather than fragile, ToS-risky scraping, with a clear path to swap in a paid data source like Apollo or Hunter later.</p>
+      <div class="tags">
+        <span class="tag">langchain</span>
+        <span class="tag">google-gemini</span>
+        <span class="tag">pydantic</span>
+        <span class="tag">multi-agent</span>
+        <span class="tag">streamlit</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <span class="badge">In development</span>
+      <h3 class="proj-title">AI customer support agent</h3>
+      <p class="proj-desc">A retrieval-augmented support chatbot: a business uploads its own documents and customers get answers grounded only in that knowledge base, with a clear fallback instead of a guess when the answer isn't there.</p>
+      <div class="tags">
+        <span class="tag">streamlit</span>
+        <span class="tag">google-gemini</span>
+        <span class="tag">faiss</span>
+        <span class="tag">rag</span>
       </div>
     </div>
 
@@ -493,6 +612,8 @@
     <p class="contact-sub">Available for freelance AI engineering work and open to full-time roles in generative AI and multi-agent systems.</p>
     <div class="contact-links">
       <a href="mailto:muhammadnazim.workspace@gmail.com">muhammadnazim.workspace@gmail.com</a>
+      <a href="https://www.fiverr.com/sellers/muhammadnazim98" target="_blank" rel="noopener">Fiverr</a>
+      <a href="cv/Muhammad-Nazim-CV.pdf" download>Download CV</a>
       <a href="https://github.com/im-nazim" target="_blank" rel="noopener">github.com/im-nazim</a>
       <a href="https://www.linkedin.com/in/muhammad-nazim-797133427/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
